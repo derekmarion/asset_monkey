@@ -11,3 +11,6 @@ When disaster strikes and your stuff is lost, stolen, or destroyed, it can be a 
  
 ### CRUD
 Users will have the ability to perform all CRUD operations on items in their inventory, as well as managing multiple inventories.
+
+### Filesystem
+Because proof of purchase is necessary for insurance companies to process a claim, the application will have to incorporate filesystem storage of user-scanned receipts, with a corresponding URL entry in the associated database item
