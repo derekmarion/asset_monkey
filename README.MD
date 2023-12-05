@@ -14,3 +14,6 @@ Users will have the ability to perform all CRUD operations on items in their inv
 
 ### Filesystem
 Because proof of purchase is necessary for insurance companies to process a claim, the application will have to incorporate filesystem storage of user-scanned receipts, with a corresponding URL entry in the associated database item
+
+### Structure
+![structure](./resources/db_schema.png)
