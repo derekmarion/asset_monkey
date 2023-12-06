@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
-from .serializers import InventorySerializer
+from .serializers import InventorySerializer, ItemSerializer
 from .models import Inventory_Item, Inventory
 from rest_framework.response import Response
 from rest_framework.status import (
@@ -29,12 +29,12 @@ class Inventory_Manager(APIView):
 
 
 class All_Items(APIView):
-    def get(self, request, inventory_id):
-        inventory = request.user.id
-        items = ItemSerializer(
-            Inventory_Item.objects.filter(user_inventory=inventory), many=True
-        )
-        return Response(items.data)
+    def get(self, request):
+        user = request.user
+        inventory = get_object_or_404(Inventory, user=user)
+        items = Inventory_Item.objects.filter(user_inventory=inventory.id)
+        items_serialized = ItemSerializer(items, many=True)
+        return Response(items_serialized.data, status=HTTP_200_OK)
 
 
 # class Item(APIView):
