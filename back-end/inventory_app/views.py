@@ -37,42 +37,31 @@ class All_Items(APIView):
         return Response(items_serialized.data, status=HTTP_200_OK)
 
 
-# class Item(APIView):
-#     def get(self, request, item_id):
-#         item = Item.objects.get(id=item_id)
-#         item_serialized = ItemSerializer(item)
-#         return Response(item_serialized.data, status=HTTP_200_OK)
+class Item(APIView):
+    def get(self, request, item_id):
+        item = Inventory_Item.objects.get(id=item_id)
+        item_serialized = ItemSerializer(item)
+        return Response(item_serialized.data, status=HTTP_200_OK)
 
-#     def post(self, request, item_id):
-#         item = get_object_or_404(Item, id=item_id)
-#         client = request.user  #associated the request with the authenticated user
+    def post(self, request):
+        new_item = ItemSerializer(data=request.data)
+        if new_item.is_valid():
+            new_item.save()
+            return Response(new_item.data, status=HTTP_201_CREATED)
 
-#         #find or create cart for client
-#         cart, created = Cart.objects.get_or_create(client=client)
+    # def delete(self, request, item_id):
+    #     item = get_object_or_404(Item, id=item_id)
+    #     client = request.user  #associated the request with the authenticated user
 
-#         #check if item is already in cart
-#         if Cart_item.objects.filter(item=item, client_cart=cart).exists():
-#             return Response({"detail": "Item already in the cart."}, status=HTTP_400_BAD_REQUEST)
+    #     #find or create cart for client
+    #     cart, created = Cart.objects.get_or_create(client=client)
 
-#         #create new cart_item instance and add it to cart
-#         cart_item = Cart_item(item=item, client_cart=cart)
-#         cart_item.save()
-
-#         return Response(f"{item.name} has been added to your cart", status=HTTP_201_CREATED)
-
-#     def delete(self, request, item_id):
-#         item = get_object_or_404(Item, id=item_id)
-#         client = request.user  #associated the request with the authenticated user
-
-#         #find or create cart for client
-#         cart, created = Cart.objects.get_or_create(client=client)
-
-#         #check if item is already in cart
-#         if Cart_item.objects.filter(item=item, client_cart=cart).exists():
-#             Cart_item.objects.filter(item=item, client_cart=cart).delete()
-#             return Response(f"{item.name} removed from cart", status=HTTP_204_NO_CONTENT)
-#         else:
-#             return Response("Item not found in the cart", status=HTTP_404_NOT_FOUND)
+    #     #check if item is already in cart
+    #     if Cart_item.objects.filter(item=item, client_cart=cart).exists():
+    #         Cart_item.objects.filter(item=item, client_cart=cart).delete()
+    #         return Response(f"{item.name} removed from cart", status=HTTP_204_NO_CONTENT)
+    #     else:
+    #         return Response("Item not found in the cart", status=HTTP_404_NOT_FOUND)
 
 
 # class Item_By_Category(APIView):
