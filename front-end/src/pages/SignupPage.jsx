@@ -23,7 +23,7 @@ export const SignUp = () => {
         api.defaults.headers.common["Authorization"] = `Token ${token}`;
         // set the user using with useContext to allow all other pages that need user information
         setUser(user);
-        // navigate("/home");
+        // navigate("/home"); should probably set this to the user's inventory page
     };
 
     return(
@@ -33,7 +33,7 @@ export const SignUp = () => {
                     <input
                       type="email"
                       placeholder="email"
-                      onChange={(e) => setUserName(e.target.value)} //Possibly needs to be a list of all subjects the student isn't currently enrolled in
+                      onChange={(e) => setUserName(e.target.value)}
                     />
                     <br />
                     <input
@@ -41,7 +41,7 @@ export const SignUp = () => {
                       placeholder="password"
                       onChange={(e) => setPassword(e.target.value)}
                     />
-                    <input type="submit" placeholder="Submit" />
+                    <input type="submit" value="Register" />
                   </form>
         </>
     )

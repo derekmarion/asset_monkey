@@ -1,5 +1,4 @@
 import Row from "react-bootstrap/esm/Row";
-import { SignUp } from "../components/Signup";
 
 export const Home = () => {
   return (
@@ -14,7 +13,6 @@ export const Home = () => {
       </p>
     </Row>
     <Row style={{ padding: "0 10vmin" }}>
-      <SignUp />
     </Row>
     </>
   );
