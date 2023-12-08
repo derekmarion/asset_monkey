@@ -3,6 +3,8 @@ import App from "./App";
 import { Home } from "./pages/HomePage";
 import { LogIn } from "./pages/LoginPage";
 import { SignUp } from "./pages/SignupPage";
+import { Inventory } from "./pages/InventoryPage";
+import { SingleItem } from "./pages/SingleItemPage";
 
 const router = createBrowserRouter([
   {
@@ -20,6 +22,14 @@ const router = createBrowserRouter([
       {
         path: "/signup",
         element: <SignUp />,
+      },
+      {
+        path: "/inventory/all_items",
+        element: <Inventory />,
+      },
+      {
+        path: "/inventory/:id/", //dynamic param
+        element: <SingleItem />,
       },
     ],
   },

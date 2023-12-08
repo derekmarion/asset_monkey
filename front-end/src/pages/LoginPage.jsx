@@ -23,7 +23,7 @@ export const LogIn = () => {
     api.defaults.headers.common["Authorization"] = `Token ${token}`;
     // set the user using with useContext to allow all other pages that need user information
     setUser(user);
-    // navigate("/home"); should probably set this to the user's inventory page
+    navigate("/"); //should probably set this to the user's inventory page
   };
 
   return (
