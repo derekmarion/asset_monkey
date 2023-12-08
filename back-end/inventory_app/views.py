@@ -48,6 +48,15 @@ class Item(APIView):
         if new_item.is_valid():
             new_item.save()
             return Response(new_item.data, status=HTTP_201_CREATED)
+        
+    def put(self, request, item_id):
+        item = Inventory_Item.objects.get(id=item_id)
+        item_serialized = ItemSerializer(item, data=request.data)
+        if item_serialized.is_valid():
+            item_serialized.save()
+            return Response(item_serialized.data, status=HTTP_200_OK)
+        return Response(item_serialized.errors, status=HTTP_400_BAD_REQUEST)
+
 
     # def delete(self, request, item_id):
     #     item = get_object_or_404(Item, id=item_id)
