@@ -13,14 +13,19 @@ from rest_framework.status import (
 from user_app.models import User
 from inventory_app.models import Inventory_Item, Inventory
 
+
 # Create your views here.
-class Upload(APIView):
+# This class uploads a file and creates a new inventory item based on its contents
+class CreateUpload(APIView):
     def post(self, request):
         user = request.user
-        uploaded_file = request.FILES['file']
+        user_folder = request.user
+        uploaded_file = request.FILES["file"]
         # Create file and assign user field as id of user making the request
-        file, created = UploadedFile.objects.get_or_create(user=User(email=user), file=uploaded_file)
-        
+        file, created = UploadedFile.sort.objects.get_or_create(
+            user=User(email=user), file=uploaded_file, user_folder=user_folder
+        )
+
         # Perform OCR
         ocr_result = perform_ocr(file.file.path)
 
@@ -31,16 +36,34 @@ class Upload(APIView):
         inventory_item, created = Inventory_Item.objects.get_or_create(
             user=file.user,
             defaults={
-                'user_inventory': Inventory(user=user),
-                'quantity': parsed_text['quantity'],
-                'category': parsed_text['category'],
-                'name': parsed_text['name'],
-                'price': parsed_text['price'],
-                'serial_num': parsed_text['serial_num']
-            }
+                "user_inventory": Inventory(user=user),
+                "quantity": parsed_text["quantity"],
+                "category": parsed_text["category"],
+                "name": parsed_text["name"],
+                "price": parsed_text["price"],
+                "serial_num": parsed_text["serial_num"],
+            },
         )
 
         # Associate uploaded file with recently created Inventory_Item
         file.inventory_item = inventory_item
+        file.save()
 
-        return Response("File uploaded successfully", status=HTTP_201_CREATED)
+        return Response("File uploaded successfully, item created", status=HTTP_201_CREATED)
+
+# This class uploads a file and associates it with the corresponding inventory item
+class Upload(APIView): 
+    def post(self, request, item_id):
+        user = request.user
+        user_folder = request.user
+        uploaded_file = request.FILES["file"]
+        # Create file and assign user field as id of user making the request
+        file, created = UploadedFile.sort.objects.get_or_create(
+            user=User(email=user), file=uploaded_file, user_folder=user_folder
+        )
+
+        # Associate uploaded file with corresponding inventory item
+        file.inventory_item = item_id
+        file.save()
+
+
