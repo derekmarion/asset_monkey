@@ -16,6 +16,7 @@ export const SingleItem = () => {
   const [quantity, setQuantity] = useState(0);
   const [price, setPrice] = useState(1.00);
   const [serial_num, setSerial_Num] = useState("SN12345");
+  const [file, setFile] = useState(null);
 
   const getSingleItem = async () => {
     try {
@@ -46,6 +47,11 @@ export const SingleItem = () => {
     };
     try {
         const response = await api.put(`/inventories/all_items/${id}/`, data);
+        if (file !== null) {
+          const formData = new FormData();
+          formData.append('file', file);
+          const fileUploadResponse = await api.post(`/files/upload/${id}/`, formData);
+        }
         setItem(response.data);
         setEditing(false);
         } catch (error){
@@ -57,6 +63,11 @@ export const SingleItem = () => {
     getSingleItem();
   }, []);
 
+  const uploadFile = (e) => {
+    setFile(e.target.files[0]);
+    console.log(file);
+  }
+
   return (
     editing ? (<Row>
       <div key={item.id}>
@@ -67,6 +78,7 @@ export const SingleItem = () => {
         <p>Quantity: <input type="text" placeholder={item.quantity} onChange={(e) => setQuantity(e.target.value)} /></p>
         <p>Price: <input type="text" placeholder={item.price} onChange={(e) => setPrice(e.target.value)} /></p>
         <p>Serial Number: <input type="text" placeholder={item.serial_num} onChange={(e) => setSerial_Num(e.target.value)} /></p>
+        <input type="file" onChange={(e) => uploadFile(e)} />
         <input type="submit" value="Save" />
         <Button onClick={()=>setEditing(false)}>Cancel</Button>
         </form>

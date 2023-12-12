@@ -49,21 +49,32 @@ class CreateUpload(APIView):
         file.inventory_item = inventory_item
         file.save()
 
-        return Response("File uploaded successfully, item created", status=HTTP_201_CREATED)
-
-# This class uploads a file and associates it with the corresponding inventory item
-class Upload(APIView): 
-    def post(self, request, item_id):
-        user = request.user
-        user_folder = request.user
-        uploaded_file = request.FILES["file"]
-        # Create file and assign user field as id of user making the request
-        file, created = UploadedFile.sort.objects.get_or_create(
-            user=User(email=user), file=uploaded_file, user_folder=user_folder
+        return Response(
+            "File uploaded successfully, item created", status=HTTP_201_CREATED
         )
 
-        # Associate uploaded file with corresponding inventory item
-        file.inventory_item = item_id
-        file.save()
+
+# This class uploads a file and associates it with the corresponding inventory item
+class UpdateUpload(APIView):
+    def post(self, request, item_id):
+        new_file = request.FILES["file"]
+
+        # Retrieve the corresponding Inventory_Item and User instance, must be saved before creating new UploadedFile obj
+        inventory_item = get_object_or_404(Inventory_Item, id=item_id)
+        user = get_object_or_404(User, email=request.user)
+        inventory_item.save()
+        user.save()
+        
+        # Check if an UploadedFile already exists for the given user and inventory_item
+        existing_file, created = UploadedFile.objects.get_or_create(
+            user=user,
+            inventory_item=inventory_item,
+        )
+
+        # Update the file and save the changes
+        existing_file.file.delete()
+        existing_file.file = new_file
+        existing_file.save()
 
 
+        return Response("File uploaded successfully", status=HTTP_204_NO_CONTENT)

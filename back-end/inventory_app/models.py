@@ -16,5 +16,5 @@ class Inventory_Item(models.Model):
     name = models.CharField(default="name")
     price = models.DecimalField(decimal_places=2, max_digits=10, default=00.00)
     serial_num = models.CharField(default="#")
-    # This will be a URL to the location of pop document on filesystem
+    # We actually won't need this because the file has a FK rel to this item
     proof_of_purchase = models.CharField(default="path")
