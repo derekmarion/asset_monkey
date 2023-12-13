@@ -12,18 +12,33 @@ from rest_framework.status import (
 )
 from user_app.models import User
 from inventory_app.models import Inventory_Item, Inventory
+from .serializers import UploadSerializer
 
 
 # Create your views here.
 # This class uploads a file and creates a new inventory item based on its contents
 class CreateUpload(APIView):
     def post(self, request):
-        user = request.user
-        user_folder = request.user
+        user = get_object_or_404(User, email=request.user)
         uploaded_file = request.FILES["file"]
+
+        user.save()
+        inventory = get_object_or_404(Inventory, user=user)
+        inventory.save()
+
+        # Create blank Inventory_Item object and associate it with the user inventory
+        inventory_item = Inventory_Item.objects.create(
+            user_inventory=inventory,
+        )
+
+        # Save the inventory items to assign values
+        inventory_item.save()
+
         # Create file and assign user field as id of user making the request
-        file, created = UploadedFile.sort.objects.get_or_create(
-            user=User(email=user), file=uploaded_file, user_folder=user_folder
+        file, created = UploadedFile.objects.get_or_create(
+            user=user,
+            file=uploaded_file,
+            inventory_item=inventory_item,
         )
 
         # Perform OCR
@@ -32,25 +47,21 @@ class CreateUpload(APIView):
         # Parse text
         parsed_text = parse_text(ocr_result)
 
-        # Create Inventory_Item object and associate it with the uploaded file and user
-        inventory_item, created = Inventory_Item.objects.get_or_create(
-            user=file.user,
-            defaults={
-                "user_inventory": Inventory(user=user),
-                "quantity": parsed_text["quantity"],
-                "category": parsed_text["category"],
-                "name": parsed_text["name"],
-                "price": parsed_text["price"],
-                "serial_num": parsed_text["serial_num"],
-            },
-        )
+        # Mass assign parsed text values to the previously created inventory_item fields
+        for key, value in parsed_text.items():
+            setattr(inventory_item, key, value)
 
-        # Associate uploaded file with recently created Inventory_Item
-        file.inventory_item = inventory_item
-        file.save()
+        # Save the inventory item after assigned values
+        inventory_item.save()
+
+        serializedFile = UploadSerializer(file)
 
         return Response(
-            "File uploaded successfully, item created", status=HTTP_201_CREATED
+            {
+                "message": "File uploaded successfully, item created",
+                "data": serializedFile.data,
+            },
+            status=HTTP_201_CREATED,
         )
 
 
@@ -64,7 +75,7 @@ class UpdateUpload(APIView):
         user = get_object_or_404(User, email=request.user)
         inventory_item.save()
         user.save()
-        
+
         # Check if an UploadedFile already exists for the given user and inventory_item
         existing_file, created = UploadedFile.objects.get_or_create(
             user=user,
@@ -75,6 +86,5 @@ class UpdateUpload(APIView):
         existing_file.file.delete()
         existing_file.file = new_file
         existing_file.save()
-
 
         return Response("File uploaded successfully", status=HTTP_204_NO_CONTENT)
