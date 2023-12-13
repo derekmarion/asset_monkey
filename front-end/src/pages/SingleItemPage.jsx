@@ -65,7 +65,6 @@ export const SingleItem = () => {
 
   const uploadFile = (e) => {
     setFile(e.target.files[0]);
-    console.log(file);
   }
 
   return (

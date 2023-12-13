@@ -5,6 +5,7 @@ import { LogIn } from "./pages/LoginPage";
 import { SignUp } from "./pages/SignupPage";
 import { Inventory } from "./pages/InventoryPage";
 import { SingleItem } from "./pages/SingleItemPage";
+import { CreateItem } from "./pages/CreateItemPage";
 
 const router = createBrowserRouter([
   {
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
         path: "/inventory/:id/", //dynamic param
         element: <SingleItem />,
       },
+      {
+        path: "/inventory/create",
+        element: <CreateItem />
+      }
     ],
   },
 ]);

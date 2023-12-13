@@ -11,6 +11,7 @@ export const Navbar = ({ user, setUser }) => {
         <Row style={{ display: "flex", justifyContent: "space-around" }}>
           <Link to="/">Home</Link>
           <Link to="/inventory/all_items">Items</Link>
+          <Link to="/inventory/create">Create Item</Link>
           <LogOut user={user} setUser={setUser} />
         </Row>
       ) : (
