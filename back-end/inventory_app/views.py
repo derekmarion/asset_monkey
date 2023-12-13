@@ -3,6 +3,7 @@ from rest_framework.views import APIView
 from .serializers import InventorySerializer, ItemSerializer
 from .models import Inventory_Item, Inventory
 from rest_framework.response import Response
+from user_app.models import User
 from rest_framework.status import (
     HTTP_201_CREATED,
     HTTP_404_NOT_FOUND,
@@ -44,7 +45,10 @@ class Item(APIView):
         return Response(item_serialized.data, status=HTTP_200_OK)
 
     def post(self, request):
-        new_item = ItemSerializer(data=request.data)
+        user = User.objects.get(email=request.user)
+        user_inventory = Inventory.objects.get(user=user)
+        new_item_data = {**request.data, 'user_inventory': user_inventory.id}
+        new_item = ItemSerializer(data=new_item_data)
         if new_item.is_valid():
             new_item.save()
             return Response(new_item.data, status=HTTP_201_CREATED)
