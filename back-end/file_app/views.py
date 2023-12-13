@@ -71,7 +71,7 @@ class UpdateUpload(APIView):
             inventory_item=inventory_item,
         )
 
-        # Update the file and save the changes
+        # Remove old file and insert new one
         existing_file.file.delete()
         existing_file.file = new_file
         existing_file.save()

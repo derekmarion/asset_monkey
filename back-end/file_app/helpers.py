@@ -3,6 +3,8 @@ import cv2
 import numpy as np
 import requests
 from pdf2image import convert_from_path
+from openai import OpenAI
+from asset_proj.settings import env
 
 
 def perform_ocr(file_path):
@@ -35,4 +37,30 @@ def perform_ocr(file_path):
 
 
 def parse_text(text):
-    pass
+    client = OpenAI(api_key=env.get("OPENAI_API_KEY"))
+
+    completion = client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {
+                "role": "system",
+                "content": """You will be provided with unstructured text, and your task is to parse it into JSON format.
+                Specifically, values for the following keys should be extracted. Here is roughly what each key will correspond to in the text:
+                "quantity": quantity of item,
+                "category": general category e.g. clothes, electronics etc.,
+                "name": name of the product,
+                "price": price of the product,
+                "serial_num": serial number of the product, if there is one
+                
+                If there are several different items in the text, select the one with the highest price.
+                """,
+            },
+            {
+                "role": "user",
+                "content": text,
+            },
+        ],
+        max_tokens=300,
+    )
+
+    return completion.choices[0].message.content
