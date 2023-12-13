@@ -1,10 +1,10 @@
 import pytesseract
 import cv2
 import numpy as np
-import requests
 from pdf2image import convert_from_path
 from openai import OpenAI
 from asset_proj.settings import env
+import json
 
 
 def perform_ocr(file_path):
@@ -46,13 +46,14 @@ def parse_text(text):
                 "role": "system",
                 "content": """You will be provided with unstructured text, and your task is to parse it into JSON format.
                 Specifically, values for the following keys should be extracted. Here is roughly what each key will correspond to in the text:
-                "quantity": quantity of item,
+                "quantity": quantity of item (default to 1 if not found),
                 "category": general category e.g. clothes, electronics etc.,
                 "name": name of the product,
-                "price": price of the product,
+                "price": price of the product expressed as decimal value with no currency sign,
                 "serial_num": serial number of the product, if there is one
                 
                 If there are several different items in the text, select the one with the highest price.
+                For all keys except quantity, default to an empty string if the value can't be extracted.
                 """,
             },
             {
@@ -63,4 +64,5 @@ def parse_text(text):
         max_tokens=300,
     )
 
-    return completion.choices[0].message.content
+    parsed_dict = json.loads(completion.choices[0].message.content)
+    return parsed_dict
