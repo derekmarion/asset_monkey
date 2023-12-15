@@ -54,7 +54,7 @@ export const Navbar = ({ user, setUser, login, setLogin }) => {
                   </svg>
                 </button>
                 <div class="hidden lg:ml-8 lg:flex lg:items-center lg:border-l lg:border-slate-900/15 lg:pl-8">
-                  {user}
+                  {user.email}
                   <span class="inline-flex justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-slate-900 text-white hover:bg-slate-700 -my-2.5 ml-8">
                     <LogOut user={user} setUser={setUser} login={login} setLogin={setLogin}/>{" "}
                     <span aria-hidden="true">→</span>
