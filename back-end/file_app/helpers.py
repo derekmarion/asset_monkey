@@ -46,14 +46,14 @@ def parse_text(text):
                 "role": "system",
                 "content": """You will be provided with unstructured text, and your task is to parse it into JSON format.
                 Specifically, values for the following keys should be extracted. Here is roughly what each key will correspond to in the text:
-                "quantity": quantity of item (default to 1 if not found),
-                "category": general category e.g. clothes, electronics etc.,
-                "name": name of the product,
-                "price": price of the product expressed as decimal value with no currency sign,
+                "quantity": quantity of item (default to 1 if not found)
+                "category": general category e.g. clothes, electronics etc.
+                "name": name of the product.
+                "price": price of the product expressed as decimal value with no currency sign, default to 0.00 if not found
                 "serial_num": serial number of the product, if there is one
                 
                 If there are several different items in the text, select the one with the highest price.
-                For all keys except quantity, default to an empty string if the value can't be extracted.
+                For all keys except quantity and price, default to an empty string if the value can't be extracted.
                 """,
             },
             {
