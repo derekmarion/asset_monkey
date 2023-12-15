@@ -83,7 +83,7 @@ export const SingleItem = () => {
     ) : (
       <div key={item.id}>
          {/*Viewing item*/}
-        <h3>{item.name}</h3>
+        <h3>Name: {item.name}</h3>
         <p>Category: {item.category}</p>
         <p>Quantity: {item.quantity}</p>
         <p>Price: ${item.price}</p>
