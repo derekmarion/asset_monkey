@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { api } from "../utilities.jsx";
 import { useOutletContext } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export const LogIn = () => {
   const { user, setUser } = useOutletContext();
@@ -23,7 +24,7 @@ export const LogIn = () => {
     api.defaults.headers.common["Authorization"] = `Token ${token}`;
     // set the user using with useContext to allow all other pages that need user information
     setUser(user);
-    navigate("/"); //should probably set this to the user's inventory page
+    navigate("/inventory/all_items"); //should probably set this to the user's inventory page
   };
 
   return (
@@ -43,6 +44,8 @@ export const LogIn = () => {
         />
         <input type="submit" value="Login" />
       </form>
+
+      <Link class="nav-link" to="/signup">New User?</Link>
     </>
   );
 };

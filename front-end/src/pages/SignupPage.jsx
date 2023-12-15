@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { api } from "../utilities.jsx";
 import { useOutletContext } from "react-router-dom";
 
-export const SignUp = () => {
+export const SignUp = ({ login, setLogin }) => {
     const { user, setUser } = useOutletContext();
     const [ userName, setUserName ] = useState();
     const [ password, setPassword ] = useState();

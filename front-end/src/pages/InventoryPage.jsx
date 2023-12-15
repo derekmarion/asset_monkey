@@ -1,7 +1,5 @@
-import Row from "react-bootstrap/esm/Row";
 import { useEffect, useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
-import Button from "react-bootstrap/Button";
 import { api } from "../utilities.jsx";
 
 export const Inventory = () => {
@@ -30,7 +28,7 @@ export const Inventory = () => {
 }
 
   return (
-    <Row>
+    <>
     {items.map((item) => (
       <div key={item.id}>
         {/* Render each item's details */}
@@ -38,10 +36,10 @@ export const Inventory = () => {
         <p>Category: {item.category}</p>
         <p>Quantity: {item.quantity}</p>
         <p>Price: ${item.price}</p>
-        <Button onClick={()=>handleButtonClick(item.id)}>More Details</Button>
+        <button onClick={()=>handleButtonClick(item.id)}>More Details</button>
         {/* Add more details as needed */}
       </div>
     ))}
-  </Row>
+    </>
   );
 };

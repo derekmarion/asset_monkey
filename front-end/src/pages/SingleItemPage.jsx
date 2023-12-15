@@ -1,8 +1,6 @@
-import Row from "react-bootstrap/esm/Row";
 import { useEffect, useState } from "react";
 import { useParams, useOutletContext } from "react-router-dom";
-import { api } from "../utilities"
-import Button from "react-bootstrap/esm/Button";
+import { api } from "../utilities";
 
 export const SingleItem = () => {
   const { user, setUser } = useOutletContext();
@@ -68,7 +66,7 @@ export const SingleItem = () => {
   }
 
   return (
-    editing ? (<Row>
+    editing ? (
       <div key={item.id}>
         {/*Editing item*/}
         <form onSubmit={(e) => updateItem(e)}>
@@ -79,12 +77,10 @@ export const SingleItem = () => {
         <p>Serial Number: <input type="text" placeholder={item.serial_num} onChange={(e) => setSerial_Num(e.target.value)} /></p>
         <input type="file" onChange={(e) => uploadFile(e)} />
         <input type="submit" value="Save" />
-        <Button onClick={()=>setEditing(false)}>Cancel</Button>
+        <button onClick={()=>setEditing(false)}>Cancel</button>
         </form>
       </div>
-  </Row>
     ) : (
-    <Row>
       <div key={item.id}>
          {/*Viewing item*/}
         <h3>{item.name}</h3>
@@ -92,9 +88,8 @@ export const SingleItem = () => {
         <p>Quantity: {item.quantity}</p>
         <p>Price: ${item.price}</p>
         <p>Serial Number: {item.serial_num}</p>
-        <Button onClick={()=>setEditing(true)}>Edit</Button>
+        <button onClick={()=>setEditing(true)}>Edit</button>
       </div>
-  </Row>
     )
   );
 };

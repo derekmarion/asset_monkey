@@ -1,4 +1,3 @@
-import Row from "react-bootstrap/Row";
 import { Outlet } from "react-router-dom";
 import { Navbar } from "./components/Navbar";
 import { useState, useEffect, useRef } from "react";
@@ -8,6 +7,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 export default function App() {
   const [user, setUser] = useState("");
   const [userForNavbar, setUserForNavbar] = useState("");
+  const [login, setLogin] = useState(true);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -34,8 +34,8 @@ export default function App() {
         }
       }
     } else {
-      // If no token is found, navigate to the login page
-      navigate("/login");
+      // If no token is found, navigate to the home page for login prompt
+      navigate("/");
     }
   };
 
@@ -62,12 +62,9 @@ export default function App() {
 
   return (
     <>
-      <Row style={{ textAlign: "center" }}>
-        <h1>Asset Monkey(working title)</h1>
-      </Row>
-      <Navbar user={userForNavbar} setUser={setUser} />{" "}
+      <Navbar user={userForNavbar} setUser={setUser} login={login} setLogin={setLogin} />{" "}
       {/* Why doesn't this have access to user state natively? */}
-      <Outlet context={{ user, setUser }} />
+      <Outlet context={{ user, setUser, login, setLogin }} />
     </>
   );
 }

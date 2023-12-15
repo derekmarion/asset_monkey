@@ -1,8 +1,6 @@
-import Row from "react-bootstrap/esm/Row";
 import { useEffect, useState } from "react";
 import { useParams, useOutletContext, useNavigate } from "react-router-dom";
 import { api } from "../utilities";
-import Button from "react-bootstrap/esm/Button";
 
 export const CreateItem = () => {
   const { user, setUser } = useOutletContext();
@@ -62,7 +60,6 @@ export const CreateItem = () => {
   };
 
   return (
-    <Row>
       <div>
         {status === "manual" && (
           // Manual entry for item
@@ -97,7 +94,7 @@ export const CreateItem = () => {
               />
             </p>
             <input type="submit" value="Save" />
-            <Button onClick={() => setStatus("auto")}>Cancel</Button>
+            <button onClick={() => setStatus("auto")}>Cancel</button>
           </form>
         )}
         {status === "auto" && (
@@ -105,7 +102,7 @@ export const CreateItem = () => {
           <form onSubmit={(e) => autoCreate(e)}>
             <input type="file" onChange={(e) => uploadFile(e)} />
             <input type="submit" value="Upload" />
-            <Button onClick={() => setStatus("manual")}>Manual Entry</Button>
+            <button onClick={() => setStatus("manual")}>Manual Entry</button>
           </form>
         )}
         {status === "loading" && (
@@ -117,6 +114,5 @@ export const CreateItem = () => {
           </div>
         )}
       </div>
-    </Row>
   );
 };

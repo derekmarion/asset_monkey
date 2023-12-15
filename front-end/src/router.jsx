@@ -1,8 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
 import { Home } from "./pages/HomePage";
-import { LogIn } from "./pages/LoginPage";
-import { SignUp } from "./pages/SignupPage";
 import { Inventory } from "./pages/InventoryPage";
 import { SingleItem } from "./pages/SingleItemPage";
 import { CreateItem } from "./pages/CreateItemPage";
@@ -16,14 +14,6 @@ const router = createBrowserRouter([
         index: true,
         element: <Home />,
       },  
-      {
-        path: "/login",
-        element: <LogIn />,
-      },
-      {
-        path: "/signup",
-        element: <SignUp />,
-      },
       {
         path: "/inventory/all_items",
         element: <Inventory />,
