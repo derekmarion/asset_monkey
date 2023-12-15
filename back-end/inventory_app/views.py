@@ -32,6 +32,7 @@ class Inventory_Manager(APIView):
 class All_Items(APIView):
     def get(self, request):
         user = request.user
+        print(user)
         inventory = get_object_or_404(Inventory, user=user)
         items = Inventory_Item.objects.filter(user_inventory=inventory.id)
         items_serialized = ItemSerializer(items, many=True)
@@ -61,20 +62,11 @@ class Item(APIView):
             return Response(item_serialized.data, status=HTTP_200_OK)
         return Response(item_serialized.errors, status=HTTP_400_BAD_REQUEST)
 
+    def delete(self, request, item_id):
+        item = Inventory_Item.objects.get(id=item_id)
+        item.delete()
 
-    # def delete(self, request, item_id):
-    #     item = get_object_or_404(Item, id=item_id)
-    #     client = request.user  #associated the request with the authenticated user
-
-    #     #find or create cart for client
-    #     cart, created = Cart.objects.get_or_create(client=client)
-
-    #     #check if item is already in cart
-    #     if Cart_item.objects.filter(item=item, client_cart=cart).exists():
-    #         Cart_item.objects.filter(item=item, client_cart=cart).delete()
-    #         return Response(f"{item.name} removed from cart", status=HTTP_204_NO_CONTENT)
-    #     else:
-    #         return Response("Item not found in the cart", status=HTTP_404_NOT_FOUND)
+        return Response("Item removed from inventory", HTTP_200_OK)
 
 
 # class Item_By_Category(APIView):
