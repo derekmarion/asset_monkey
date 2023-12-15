@@ -80,6 +80,7 @@ export const SingleItem = () => {
                 type="text"
                 placeholder={item.name}
                 onChange={(e) => setName(e.target.value)}
+                className="border"
               />
             </h3>
             <p className="text-gray-600 mb-2">
@@ -88,6 +89,7 @@ export const SingleItem = () => {
                 type="text"
                 placeholder={item.category}
                 onChange={(e) => setCategory(e.target.value)}
+                className="border"
               />
             </p>
             <p className="text-gray-600 mb-2">
@@ -96,6 +98,7 @@ export const SingleItem = () => {
                 type="text"
                 placeholder={item.quantity}
                 onChange={(e) => setQuantity(e.target.value)}
+                className="border"
               />
             </p>
             <p className="text-gray-600 mb-2">
@@ -104,6 +107,7 @@ export const SingleItem = () => {
                 type="text"
                 placeholder={item.price}
                 onChange={(e) => setPrice(e.target.value)}
+                className="border"
               />
             </p>
             <p className="text-gray-600 mb-2">
@@ -112,6 +116,16 @@ export const SingleItem = () => {
                 type="text"
                 placeholder={item.serial_num}
                 onChange={(e) => setSerial_Num(e.target.value)}
+                className="border"
+              />
+            </p>
+            <p className="text-gray-600 mb-2">
+              Proof of Purchase:{" "}
+              <input
+                type="text"
+                placeholder={item.file_name}
+                onChange={(e) => setSerial_Num(e.target.value)}
+                className="border"
               />
             </p>
             <input type="file" onChange={(e) => uploadFile(e)} />
@@ -136,6 +150,9 @@ export const SingleItem = () => {
             <p className="text-gray-600 mb-2">Price: ${item.price}</p>
             <p className="text-gray-600 mb-2">
               Serial Number: {item.serial_num}
+            </p>
+            <p className="text-gray-600 mb-2">
+              Proof of Purchase: {item.file_name}
             </p>
             <button
               className="bg-slate-900 text-white px-4 py-2 rounded-full hover:bg-slate-700"
