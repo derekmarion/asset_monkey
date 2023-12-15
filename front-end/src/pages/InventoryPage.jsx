@@ -9,6 +9,9 @@ export const Inventory = () => {
 
   const getAllItems = async () => {
     try {
+      if (!user){
+        console.log("user not authenticated yet")
+      }
       const response = await api.get("inventories/all_items/", {
         email: user,
       });
@@ -20,12 +23,25 @@ export const Inventory = () => {
   };
 
   useEffect(() => {
-    getAllItems();
-  }, []);
+    if (user) {
+      getAllItems()
+    };
+  }, [user]);
 
   const handleButtonClick = (id) => {
     navigate(`/inventory/${id}/`);
   };
+
+  const deleteItem = async (id) => {
+    try { 
+      const response = await api.delete(`inventories/all_items/${id}/`);
+      // After deletion, re-fetch the updated list of items
+      getAllItems();
+    } catch (error) {
+      console.error(error);
+      alert("Something went wrong")
+    }
+  }
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -43,6 +59,7 @@ export const Inventory = () => {
           >
             More Details
           </button>
+          <button onClick={() => deleteItem(item.id)} className="">Delete</button>
           {/* Add more details as needed */}
         </div>
       ))}
