@@ -20,7 +20,7 @@ RUN apt-get install -y --no-install-recommends \
 RUN apt-get install -y libgl1
 
 # COPY requirements.txt onto the Docker container
-COPY requirements.txt /app/
+COPY requirements.txt .
 
 # Upgrade pip
 RUN pip install --upgrade pip
@@ -28,6 +28,5 @@ RUN pip install --upgrade pip
 # Install Python Projects Environment dependencies
 RUN pip install -r requirements.txt
 
-
 # Copy the entire Django project to the container
-COPY . /app/
+COPY . .
