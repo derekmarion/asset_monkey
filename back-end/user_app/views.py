@@ -7,6 +7,7 @@ from rest_framework.status import (
     HTTP_204_NO_CONTENT,
     HTTP_200_OK,
     HTTP_404_NOT_FOUND,
+    HTTP_400_BAD_REQUEST
 )
 from rest_framework.authtoken.models import Token
 from rest_framework.authentication import TokenAuthentication
@@ -17,7 +18,11 @@ from rest_framework.permissions import IsAuthenticated
 class Sign_Up(APIView):
     def post(self, request):
         request.data['username'] = request.data['email']
-        user = User.objects.create_user(**request.data)
+        user = User.objects.filter(email=request.data['email']).first()
+        if not user:
+            user = User.objects.create_user(**request.data)
+        elif user:
+            return Response(f"User {user.email} already exists", status=HTTP_400_BAD_REQUEST)
         token = Token.objects.create(user=user)
         return Response(
             {"user": user.email, "token": token.key}, status=HTTP_201_CREATED
