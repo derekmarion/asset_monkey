@@ -16,9 +16,14 @@ from rest_framework.status import (
 # Create your views here.
 class Inventory_Manager(APIView):
     def post(self, request):
-        user = request.user
-        inventory, created = Inventory.objects.get_or_create(user=user)
-        return Response("Inventory created successfully", status=HTTP_201_CREATED)
+        user = User.objects.get(email=request.user)
+        inventory_data = {"user": user.id}
+        inventory = InventorySerializer(data=inventory_data)
+        if inventory.is_valid():
+            inventory.save()
+            return Response("Inventory created successfully", status=HTTP_201_CREATED)
+        else:
+            return Response(inventory.errors, status=HTTP_400_BAD_REQUEST)
 
     def get(self, request):
         user = request.user
@@ -35,6 +40,7 @@ class All_Items(APIView):
         print(user)
         inventory = get_object_or_404(Inventory, user=user)
         items = Inventory_Item.objects.filter(user_inventory=inventory.id)
+        # Handle if user has no items yet
         items_serialized = ItemSerializer(items, many=True)
         return Response(items_serialized.data, status=HTTP_200_OK)
 
