@@ -53,14 +53,16 @@ export const Inventory = () => {
           <p className="text-gray-600 mb-2">Category: {item.category}</p>
           <p className="text-gray-600 mb-2">Quantity: {item.quantity}</p>
           <p className="text-gray-600 mb-2">Price: ${item.price}</p>
+          <div className="flex justify-between">
           <button
             onClick={() => handleButtonClick(item.id)}
             className="bg-slate-900 text-white px-4 py-2 rounded-full hover:bg-slate-700"
           >
             More Details
           </button>
-          <button onClick={() => deleteItem(item.id)} className="">Delete</button>
+          <button onClick={() => deleteItem(item.id)} className="bg-red-700 text-white px-4 py-2 rounded-full hover:bg-red-900 ml-auto">Delete</button>
           {/* Add more details as needed */}
+          </div>
         </div>
       ))}
     </div>
