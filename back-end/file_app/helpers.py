@@ -3,8 +3,8 @@ import cv2
 import numpy as np
 from pdf2image import convert_from_path
 from openai import OpenAI
-from asset_proj.settings import env
 import json
+import os
 
 
 def perform_ocr(file_path):
@@ -37,7 +37,7 @@ def perform_ocr(file_path):
 
 
 def parse_text(text):
-    client = OpenAI(api_key=env.get("OPENAI_API_KEY"))
+    client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
 
     completion = client.chat.completions.create(
         model="gpt-3.5-turbo",
