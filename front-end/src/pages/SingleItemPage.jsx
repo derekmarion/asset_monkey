@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, useOutletContext } from "react-router-dom";
+import { useParams, useOutletContext, useNavigate } from "react-router-dom";
 import { api } from "../utilities";
 
 export const SingleItem = () => {
@@ -7,6 +7,7 @@ export const SingleItem = () => {
   const [item, setItem] = useState([]);
   const { id } = useParams();
   const [editing, setEditing] = useState(false);
+  const navigate = useNavigate();
 
   //Value declaration for item fields
   const [category, setCategory] = useState("");
@@ -68,9 +69,20 @@ export const SingleItem = () => {
     setFile(e.target.files[0]);
   };
 
+  const deleteItem = async (id) => {
+    try {
+      const response = await api.delete(`inventories/all_items/${id}/`);
+      // Navigate back to inventory page
+      navigate("/inventory/all_items")
+    } catch (error) {
+      console.error(error);
+      alert("Something went wrong");
+    }
+  };
+
   return (
     <div className="flex justify-center items-center">
-      <div className="bg-white rounded-lg shadow-md p-4 mt-20">
+      <div className="bg-white rounded-lg shadow-md p-4 mt-20 w-96">
         {editing ? (
           // Editing item
           <form onSubmit={(e) => updateItem(e)}>
@@ -120,7 +132,7 @@ export const SingleItem = () => {
               />
             </p>
             <p className="text-gray-600 mb-2">
-              Proof of Purchase:{" "}
+              Proof of Purchase:{" "} {/*rThis should not be editable. Upload File below if None*/}
               <input
                 type="text"
                 placeholder={item.file_name}
@@ -128,7 +140,7 @@ export const SingleItem = () => {
                 className="border"
               />
             </p>
-            <input type="file" onChange={(e) => uploadFile(e)} />
+            <input type="file" onChange={(e) => uploadFile(e)} className=" mb-3"/>
             <input
               className="bg-slate-900 text-white px-4 py-2 rounded-full hover:bg-slate-700"
               type="submit"
@@ -154,12 +166,20 @@ export const SingleItem = () => {
             <p className="text-gray-600 mb-2">
               Proof of Purchase: {item.file_name}
             </p>
-            <button
-              className="bg-slate-900 text-white px-4 py-2 rounded-full hover:bg-slate-700"
-              onClick={() => setEditing(true)}
-            >
-              Edit
-            </button>
+            <div className="flex justify-between">
+              <button
+                className="bg-slate-900 text-white px-4 py-2 rounded-full hover:bg-slate-700"
+                onClick={() => setEditing(true)}
+              >
+                Edit
+              </button>
+              <button
+                onClick={() => deleteItem(item.id)}
+                className="bg-red-700 text-white px-4 py-2 rounded-full hover:bg-red-900 ml-auto"
+              >
+                Delete
+              </button>
+            </div>
           </>
         )}
       </div>
