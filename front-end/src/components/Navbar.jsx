@@ -19,7 +19,7 @@ export const Navbar = ({ user, setUser, login, setLogin }) => {
           >
             <div class="relative flex items-center py-[2.125rem]">
               <Link to="/inventory/all_items" class="flex-none text-slate-900">
-                <span>Asset Monkey</span>
+                <span className="text-2xl">Asset Monkey</span>
               </Link>
               <div class="ml-auto hidden lg:flex lg:items-center">
                 <Link to="/inventory/all_items">Items</Link>
@@ -72,7 +72,7 @@ export const Navbar = ({ user, setUser, login, setLogin }) => {
           >
             <div class="relative flex items-center py-[2.125rem]">
               <Link to="/" class="flex-none text-slate-900">
-                <span>Asset Monkey</span>
+                <span className="text-2xl">Asset Monkey</span>
               </Link>
               <div class="ml-auto hidden lg:flex lg:items-center">
                 <div class="hidden lg:ml-8 lg:flex lg:items-center lg:border-l lg:border-slate-900/15 lg:pl-8">
