@@ -11,10 +11,12 @@ WORKDIR /app
 # updates ubuntus installer
 RUN apt-get update
 
-# Install system dependencies to interact with postgresql
+# Install system dependencies to interact with postgresql, OCR and PDF binaries
 RUN apt-get install -y --no-install-recommends \
     gcc \
-    postgresql-client
+    postgresql-client \
+    tesseract-ocr \
+    poppler-utils
 
 # Install cv2 dependencies
 RUN apt-get install -y libgl1
