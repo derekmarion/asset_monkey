@@ -51,7 +51,7 @@ export const CreateItem = () => {
         alert("File upload failed");
       }
     } else {
-      alert("Please select a file to upload")
+      alert("Please select a file to upload");
     }
   };
 
@@ -59,8 +59,12 @@ export const CreateItem = () => {
     setFile(e.target.files[0]);
   };
 
+  useEffect(() => {
+  }, [status]);
+
   return (
-      <div>
+    <div className="flex justify-center items-center">
+      <div className="bg-white rounded-lg shadow-md p-4 mt-20 w-96">
         {status === "manual" && (
           // Manual entry for item
           <form onSubmit={(e) => manualCreateItem(e)}>
@@ -98,12 +102,16 @@ export const CreateItem = () => {
           </form>
         )}
         {status === "auto" && (
-          //Upload Reciept
+        //Upload Receipt and scan
+          <>
+          <h3 className="text-lg font-semibold mb-2 text-center">Automatically scan your proof of purchase document to create an item in your inventory</h3>
+
           <form onSubmit={(e) => autoCreate(e)}>
-            <input type="file" onChange={(e) => uploadFile(e)} />
-            <input type="submit" value="Upload" />
-            <button onClick={() => setStatus("manual")}>Manual Entry</button>
+            <input type="file" onChange={(e) => uploadFile(e)} className=" mb-3"/>
+            <input type="submit" value="Scan" className="bg-slate-900 text-white px-4 py-2 rounded-full hover:bg-slate-700"/>
+            <button onClick={() => setStatus("manual")} className="bg-slate-900 text-white px-4 py-2 rounded-full hover:bg-slate-700 ml-auto ml-2">Manual Entry</button>
           </form>
+          </>
         )}
         {status === "loading" && (
           //Show spinner while API call executes
@@ -114,5 +122,6 @@ export const CreateItem = () => {
           </div>
         )}
       </div>
+    </div>
   );
 };
