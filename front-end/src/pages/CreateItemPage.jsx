@@ -60,8 +60,7 @@ export const CreateItem = () => {
     setFile(e.target.files[0]);
   };
 
-  useEffect(() => {
-  }, [status]);
+  useEffect(() => {}, [status]);
 
   return (
     <div className="flex justify-center items-center">
@@ -69,49 +68,85 @@ export const CreateItem = () => {
         {status === "manual" && (
           // Manual entry for item
           <form onSubmit={(e) => manualCreateItem(e)}>
-            <h3>
+            <h3 className="text-lg font-semibold mb-2">
               Name:{" "}
-              <input type="text" onChange={(e) => setName(e.target.value)} />
+              <input
+                type="text"
+                onChange={(e) => setName(e.target.value)}
+                className="border"
+              />
             </h3>
-            <p>
+            <p className="text-gray-600 mb-2">
               Category:{" "}
               <input
                 type="text"
                 onChange={(e) => setCategory(e.target.value)}
+                className="border"
               />
             </p>
-            <p>
+            <p className="text-gray-600 mb-2">
               Quantity:{" "}
               <input
                 type="text"
                 onChange={(e) => setQuantity(e.target.value)}
+                className="border"
               />
             </p>
-            <p>
+            <p className="text-gray-600 mb-2">
               Price:{" "}
-              <input type="text" onChange={(e) => setPrice(e.target.value)} />
+              <input
+                type="text"
+                onChange={(e) => setPrice(e.target.value)}
+                className="border"
+              />
             </p>
-            <p>
+            <p className="text-gray-600 mb-2">
               Serial Number:{" "}
               <input
                 type="text"
                 onChange={(e) => setSerial_Num(e.target.value)}
+                className="border"
               />
             </p>
-            <input type="submit" value="Save" />
-            <button onClick={() => setStatus("auto")}>Cancel</button>
+            <input
+              type="submit"
+              value="Save"
+              className="bg-slate-900 text-white px-4 py-2 rounded-full hover:bg-slate-700"
+            />
+            <button
+              onClick={() => setStatus("auto")}
+              className="bg-slate-900 text-white px-4 py-2 rounded-full hover:bg-slate-700 ml-2"
+            >
+              Cancel
+            </button>
           </form>
         )}
         {status === "auto" && (
-        //Upload Receipt and scan
+          //Upload Receipt and scan
           <>
-          <h3 className="text-lg font-semibold mb-2 text-center">Automatically scan your proof of purchase document to create an item in your inventory</h3>
+            <h3 className="text-lg font-semibold mb-2 text-center">
+              Automatically scan your proof of purchase document to create an
+              item in your inventory
+            </h3>
 
-          <form onSubmit={(e) => autoCreate(e)}>
-            <input type="file" onChange={(e) => uploadFile(e)} className=" mb-3"/>
-            <input type="submit" value="Scan" className="bg-slate-900 text-white px-4 py-2 rounded-full hover:bg-slate-700"/>
-            <button onClick={() => setStatus("manual")} className="bg-slate-900 text-white px-4 py-2 rounded-full hover:bg-slate-700 ml-auto ml-2">Manual Entry</button>
-          </form>
+            <form onSubmit={(e) => autoCreate(e)}>
+              <input
+                type="file"
+                onChange={(e) => uploadFile(e)}
+                className=" mb-3"
+              />
+              <input
+                type="submit"
+                value="Scan"
+                className="bg-slate-900 text-white px-4 py-2 rounded-full hover:bg-slate-700"
+              />
+              <button
+                onClick={() => setStatus("manual")}
+                className="bg-slate-900 text-white px-4 py-2 rounded-full hover:bg-slate-700 ml-auto ml-2"
+              >
+                Manual Entry
+              </button>
+            </form>
           </>
         )}
         {status === "loading" && (

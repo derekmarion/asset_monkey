@@ -147,7 +147,7 @@ export const SingleItem = () => {
               value="Save"
             />
             <button
-              className="bg-slate-900 text-white px-4 py-2 rounded-full hover:bg-slate-700"
+              className="bg-slate-900 text-white px-4 py-2 rounded-full hover:bg-slate-700 ml-2"
               onClick={() => setEditing(false)}
             >
               Cancel
