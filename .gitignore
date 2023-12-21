@@ -3,3 +3,4 @@ __pycache__
 .env
 proof-of-purchase
 back-end/data
+*.tldr
