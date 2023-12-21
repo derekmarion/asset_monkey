@@ -12,6 +12,7 @@ from rest_framework.status import (
 from rest_framework.authtoken.models import Token
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
+from user_app.helpers import check_email_disposable
 
 
 # Create your views here.
@@ -24,8 +25,9 @@ class Sign_Up(APIView):
         elif user:
             return Response(f"User {user.email} already exists", status=HTTP_400_BAD_REQUEST)
         token = Token.objects.create(user=user)
+        email_check = check_email_disposable(request.data['email'])
         return Response(
-            {"user": user.email, "token": token.key}, status=HTTP_201_CREATED
+            {"user": user.email, "token": token.key, "Disposable email": email_check}, status=HTTP_201_CREATED
         )
 
 class Log_in(APIView):
