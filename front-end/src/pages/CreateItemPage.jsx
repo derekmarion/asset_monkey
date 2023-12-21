@@ -49,6 +49,7 @@ export const CreateItem = () => {
       } catch (error) {
         console.error(error);
         alert("File upload failed");
+        setStatus("manual");
       }
     } else {
       alert("Please select a file to upload");
