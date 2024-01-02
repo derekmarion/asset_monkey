@@ -1,25 +1,28 @@
 services:
   db:
     image: postgres
-    volumes: # Remove in production, switch to named volume
-      - ./back-end/data/db:/var/lib/postgresql/data
+    volumes: # Development only named-volume configuration for data persistence
+      - postgres_data:/var/lib/postgresql/data
     env_file:
-      - ./back-end/.env/.postgres.env
+      - ./.env/.postgres.env
   api:
     build: back-end
     command: python manage.py runserver 0.0.0.0:8000
-    volumes: # Remove in production, switch to named volume
+    volumes: # Development only volume mount configuration for immediate updates
       - ./back-end:/app
     ports:
       - "8000:8000"
     env_file:
-      - ./back-end/.env/.django.env
+      - ./.env/.django.env
     depends_on:
       - db
   frontend:
     build: front-end
     command: npm run dev
-    volumes:
+    volumes: # Development only volume mount configuration for immediate updates
       - ./front-end:/app
     ports:
       - "80:5173"
+
+volumes:
+  postgres_data:
