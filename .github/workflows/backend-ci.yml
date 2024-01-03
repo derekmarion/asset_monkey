@@ -13,9 +13,11 @@ jobs:
         env:
           POSTGRES_DB: postgres
           POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
+          POSTGRES_PASSWORD: github_actions
         ports:
           - 5432:5432
+        # needed because the postgres container does not provide a healthcheck
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
@@ -36,10 +38,6 @@ jobs:
           python manage.py migrate
 
       - name: Run Tests
-        env:
-          POSTGRES_NAME: postgres
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
         run: |
           cd back-end
           python manage.py test
