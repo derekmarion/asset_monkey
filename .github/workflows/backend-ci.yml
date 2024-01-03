@@ -30,6 +30,11 @@ jobs:
           pip install --upgrade pip
           pip install -r back-end/requirements.txt
 
+      - name: Run migrations
+        run: |
+          cd back-end
+          python manage.py migrate
+          
       - name: Run Tests
         env:
           POSTGRES_NAME: ${{ secrets.POSTGRES_NAME }}
