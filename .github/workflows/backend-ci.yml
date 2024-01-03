@@ -20,8 +20,12 @@ jobs:
         run: |
           pip install --upgrade pip
           pip install -r back-end/requirements.txt
-
+      
       - name: Run Tests
+        env: 
+          POSTGRES_NAME: ${{ secrets.POSTGRES_NAME }}
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
         run: |
           cd back-end
           python manage.py test
