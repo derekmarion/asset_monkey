@@ -17,8 +17,10 @@ jobs:
         with:
           python-version: 3.10.12
 
-      - name: Install Dependencies
-        run: pip install -r requirements.txt
+      - name: Upgrade pip/install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
 
       - name: Run Migrations
         run: python manage.py migrate
