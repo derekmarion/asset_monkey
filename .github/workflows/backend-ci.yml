@@ -20,7 +20,7 @@ jobs:
       - name: Upgrade pip/install dependencies
         run: |
           pip install --upgrade pip
-          pip install -r ../back-end/requirements.txt
+          pip install -r ../../back-end/requirements.txt
 
       - name: Run Migrations
         run: python manage.py migrate
