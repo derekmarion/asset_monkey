@@ -11,10 +11,15 @@ from rest_framework.status import (
     HTTP_200_OK,
     HTTP_400_BAD_REQUEST,
 )
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
 
 
 # Create your views here.
 class Inventory_Manager(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    
     def post(self, request):
         user = User.objects.get(email=request.user)
         inventory_data = {"user": user.id}
@@ -26,10 +31,16 @@ class Inventory_Manager(APIView):
             return Response(inventory.errors, status=HTTP_400_BAD_REQUEST)
 
     def get(self, request):
-        user = request.user
+        user_email = request.user
+
+        if not user_email:
+            return Response("Email parameter is missing", status=HTTP_400_BAD_REQUEST)
+
+        user = get_object_or_404(User, email=user_email)
         inventory = get_object_or_404(Inventory, user=user)
+
         return Response(
-            f"Inventory with ID {inventory.id} exists and belong to user {inventory.user}",
+            f"Inventory exists and belongs to user {inventory.user}",
             status=HTTP_200_OK,
         )
 
@@ -54,12 +65,12 @@ class Item(APIView):
     def post(self, request):
         user = User.objects.get(email=request.user)
         user_inventory = Inventory.objects.get(user=user)
-        new_item_data = {**request.data, 'user_inventory': user_inventory.id}
+        new_item_data = {**request.data, "user_inventory": user_inventory.id}
         new_item = ItemSerializer(data=new_item_data)
         if new_item.is_valid():
             new_item.save()
             return Response(new_item.data, status=HTTP_201_CREATED)
-        
+
     def put(self, request, item_id):
         item = Inventory_Item.objects.get(id=item_id)
         item_serialized = ItemSerializer(item, data=request.data)
