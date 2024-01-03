@@ -102,7 +102,7 @@ DATABASES = {
 }
 
 # CI Github Workflow Settings
-if os.environ.get('GITHUB_WORKFLOW'):
+if os.environ.get('CI'):
     DATABASES = {
         'default': {
            'ENGINE': 'django.db.backends.postgresql',
