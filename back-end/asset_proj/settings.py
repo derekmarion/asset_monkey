@@ -90,20 +90,20 @@ WSGI_APPLICATION = "asset_proj.wsgi.application"
 # }
 
 # Docker DB config
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.postgresql",
-#         "NAME": os.environ.get('POSTGRES_NAME'),
-#         "USER": os.environ.get('POSTGRES_USER'),
-#         "PASSWORD": os.environ.get('POSTGRES_PASSWORD'),
-#         "HOST": 'db',
-#         "PORT": 5432,
-#     }
-# }
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": os.environ.get('POSTGRES_NAME'),
+        "USER": os.environ.get('POSTGRES_USER'),
+        "PASSWORD": os.environ.get('POSTGRES_PASSWORD'),
+        "HOST": 'db',
+        "PORT": 5432,
+    }
+}
 
 # CI Github Workflow Settings
-# if os.environ.get('CI'):
-DATABASES = {
+if os.environ.get('CI'):
+    DATABASES = {
         'default': {
            'ENGINE': 'django.db.backends.postgresql',
            'NAME': 'github_actions',
