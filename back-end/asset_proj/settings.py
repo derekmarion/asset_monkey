@@ -89,7 +89,7 @@ WSGI_APPLICATION = "asset_proj.wsgi.application"
 #     }
 # }
 
-# Docker DB config
+# Docker DB config for local development
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
@@ -101,7 +101,7 @@ DATABASES = {
     }
 }
 
-# CI Github Workflow Settings
+# CI Github Workflow DB config
 if os.environ.get('CI'):
     DATABASES = {
         'default': {
