@@ -42,7 +42,7 @@ jobs:
             postgresql-client \
             tesseract-ocr \
             poppler-utils \
-            libgli
+            libgli \
 
       - name: Upgrade pip/install dependencies
         run: |
