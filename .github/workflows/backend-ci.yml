@@ -33,7 +33,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Install binary dependencies
-        run: 
+        run: |
           apt-get update
           apt-get install -y --no-install-recommends \
             gcc \
