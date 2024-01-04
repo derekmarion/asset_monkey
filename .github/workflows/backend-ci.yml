@@ -8,9 +8,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env: 
+    container: python:latest
+    env:
       SECRET_KEY: ${{ secrets.SECRET_KEY }}
-    
+
     services:
       postgres:
         image: postgres:latest
@@ -20,9 +21,13 @@ jobs:
           POSTGRES_PASSWORD: postgres
         ports:
           - 5432:5432
-        # needed because the postgres container does not provide a healthcheck
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-    
+        # Set health checks
+        options: >-
+          --health-cmd pg_isready 
+          --health-interval 10s 
+          --health-timeout 5s 
+          --health-retries 5
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
