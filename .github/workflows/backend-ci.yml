@@ -34,13 +34,14 @@ jobs:
 
       - name: Install binary dependencies
         run: 
+          apt-get update
           apt-get install -y --no-install-recommends \
             gcc \
             postgresql-client \
             tesseract-ocr \
             poppler-utils \
             libgli
-            
+
       - name: Upgrade pip/install dependencies
         run: |
           pip install --upgrade pip
