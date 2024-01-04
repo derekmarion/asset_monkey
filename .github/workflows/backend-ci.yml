@@ -8,9 +8,11 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: python:3.10.12-slim-bullseye
+    container: python:latest
     env:
       SECRET_KEY: ${{ secrets.SECRET_KEY }}
+      PYTHONDONTWRITEBYTECODE: 1
+      PYTHONUNBUFFERED: 1
 
     services:
       postgres:
